@@ -8,25 +8,42 @@
 <h2>Books</h2>
 
 <p>
-    <a class="btn btn-primary" asp-action="New">New Book</a>
+    <a class="btn btn-primary" href="/books/new">New Book</a>
 </p>
 
-<table class="table table-bordered table-hover">
+<table id="book-table" class="table table-bordered table-hover">
     <thead>
         <tr>
             <th>Book</th>
-            <th colspan="2">Genre</th>
+            <th>Genre</th>
+            <th>Release Date</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var book in Model)
         {
             <tr>
-                <td><a asp-action="Edit" asp-route-id="@book.Id">@Html.DisplayFor(modelItem => book.Title)</a></td>
+                <td>@book.Title</td>
                 <td>@book.Genre.Name</td>
-                <td><a asp-action="Details" asp-route-id="@book.Id">Details</a></td>
-
+                <td>@(book.ReleaseDate.HasValue ? book.ReleaseDate.Value.ToShortDateString() : "")</td>
+                <td>
+                    <a href="/api/books/details/@book.Id" class="btn btn-primary">Details</a>
+                    <a href="/api/books/edit/@book.Id" class="btn btn-success">Edit</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <script>
+        $(document).ready(function () {
+            $('#book-table').DataTable();
+        });
+    </script>
+}
+

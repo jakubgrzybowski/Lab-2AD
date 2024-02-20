@@ -8,21 +8,26 @@
 
 @using (Html.BeginForm("Save", "Books"))
 {
+    @Html.AntiForgeryToken()
     <div class="form-group">
         @Html.LabelFor(m => m.Book.Title)
-        @Html.TextBoxFor(m => m.Book.Title, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Book.Title, new { @class = "form-control", required = "required" })
+        <div class="invalid-feedback">Pole Title jest wymagane.</div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Book.ReleaseDate)
-        @Html.TextBoxFor(m => m.Book.ReleaseDate, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Book.ReleaseDate, "{0:d MMM yyyy}", new { @class = "form-control", required = "required" })
+        <div class="invalid-feedback">Pole ReleaseDate jest wymagane.</div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Book.GenreId)
-        @Html.DropDownListFor(m => m.Book.GenreId, new SelectList(Model.Genres, "Id", "Name"), "", new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.Book.GenreId, new SelectList(Model.Genres, "Id", "Name"), "", new { @class = "form-control", required = "required" })
+        <div class="invalid-feedback">Pole Genre jest wymagane.</div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Book.NumberInStock)
-        @Html.TextBoxFor(m => m.Book.NumberInStock, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Book.NumberInStock, new { @class = "form-control", type = "number", min = "1", max = "20", required = "required" })
+        <div class="invalid-feedback">Pole NumberInStock powinno zostać wypełnione liczbą całkowitą od 1 do 20.</div>
     </div>
 
     @Html.HiddenFor(m => m.Book.Id)
